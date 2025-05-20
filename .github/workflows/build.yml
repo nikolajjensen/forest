@@ -7,15 +7,7 @@ on:
 
 jobs:
   build:
-    strategy:
-      fail-fast: false
-      matrix:
-        os:
-          - ubuntu-latest
-          - macos-latest
-          - windows-latest
-
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout tree
@@ -26,9 +18,13 @@ jobs:
         with:
           ocaml-compiler: 5
 
-      - name: Build forest
+      - name: Install forester
         run: |
           eval $(opam env)
+          opam install -y forester
+        
+      - name: Build forest
+        run: |
           forester build forest.toml
 
       - name: Prepare output for deploy

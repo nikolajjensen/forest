@@ -25,6 +25,7 @@ jobs:
         
       - name: Build forest
         run: |
+          eval $(opam env)
           forester build forest.toml
 
       - name: Prepare output for deploy

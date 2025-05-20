@@ -1,0 +1,47 @@
+name: Build and Deploy Forest
+
+on:
+  push:
+    branches:
+      - main  # adjust if using another branch
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout forest repo
+        uses: actions/checkout@v3
+
+      - name: Install opam and OCaml
+        run: |
+          sudo apt update
+          sudo apt install -y opam m4 pkg-config
+          opam init -y --disable-sandboxing
+          eval $(opam env)
+          opam switch create . ocaml-base-compiler.5.1.0
+          eval $(opam env)
+
+      - name: Install forester
+        run: |
+          eval $(opam env)
+          opam install -y forester
+
+      - name: Build forest
+        run: |
+          eval $(opam env)
+          forester build forest.toml
+
+      - name: Prepare output for deploy
+        run: |
+          cd output
+          echo "Built on $(date)" > .build_info.txt
+
+#      - name: Push to GitHub Pages repo
+#        uses: peaceiris/actions-gh-pages@v4
+#        with:
+#          external_repository: username/username.github.io  # replace with your GitHub Pages repo
+#          publish_dir: ./output
+#          personal_token: ${{ secrets.GH_PAGES_DEPLOY_TOKEN }}
+#          publish_branch: main  # or 'gh-pages', depending on your setup
+#          commit_message: "Deploy forest update from ${{ github.repository }}@${{ github.sha }}"

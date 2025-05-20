@@ -1,0 +1,6 @@
+\title{Nikolaj Banke Jensen}
+\taxon{Person}
+\meta{external}{https://nikolajjensen.com}
+\meta{institution}{[[uox]]}
+
+\p{I'm a student in computer science, primarily interested in machine learning, programming languages, and the intersection between the two. Machine learning is compositional in nature, so I'm exploring how type theory and category theory can help reason about these systems. Ultimately, I want to create better tools for working with, and proving properties of, compositional structures.}
